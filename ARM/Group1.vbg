@@ -1,0 +1,3 @@
+VBGROUP 5.0
+StartupProject=Inventory.vbp
+Project=..\..\..\MTZ\MTZJournal\MTZJournal.vbp

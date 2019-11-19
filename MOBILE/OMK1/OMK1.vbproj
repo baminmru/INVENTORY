@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DE5E314B-1E2C-4593-B1B0-028D75632EA1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>OMK1.frmScan</StartupObject>
+    <RootNamespace>OMK1</RootNamespace>
+    <AssemblyName>SGS2OMK</AssemblyName>
+    <ProjectTypeGuids>{68B1623D-7FB9-47D8-8664-7ECEA3297D4F};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>4118C335-430C-497f-BE48-11C3316B135E</PlatformID>
+    <OSVersion>5.1</OSVersion>
+    <MyType>WindowsForms</MyType>
+    <DeployDirSuffix>OMK1</DeployDirSuffix>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <NativePlatformName>Windows Mobile 5.0 Pocket PC SDK</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>$(PlatformFamilyName)=TRUE</DefineConstants>
+    <DocumentationFile>SGS2OMK.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <FileAlignment>512</FileAlignment>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>$(PlatformFamilyName)=TRUE</DefineConstants>
+    <DocumentationFile>SGS2OMK.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <FileAlignment>512</FileAlignment>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Symbol.Barcode.Design, Version=1.6.1.11, Culture=neutral, PublicKeyToken=68ec8db391f150ca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Symbol.Barcode.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data.SQLite, Version=1.0.64.0, Culture=neutral, PublicKeyToken=1fdb50b1b62b4c84, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frmEdit.Designer.vb">
+      <DependentUpon>frmEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScan.Designer.vb">
+      <DependentUpon>frmScan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmScan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUnknown.Designer.vb">
+      <DependentUpon>frmUnknown.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmUnknown.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module1.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmEdit.resx">
+      <DependentUpon>frmEdit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmScan.resx">
+      <DependentUpon>frmScan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUnknown.resx">
+      <DependentUpon>frmUnknown.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.VisualBasic.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{F184B08F-C81C-45F6-A57F-5ABD9991F28F}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

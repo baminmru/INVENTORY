@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<root><ModuleHolder ModuleName="--Update 26.11.2009" File=""><BlockHolder BlockName="-- Update Script" BlockCode="CREATE        view v_RPT_INVENTORY_BAD as
+select v_AUTOINVOS_INFO.*,INVI_OBJ.instanceid INV_INSTANCEID ,
+invi_DEFID  
+,invi_DEF_Uprev_ID
+,invi_DEF_Uprev   
+,invi_DEF_EndDate 
+,invi_DEF_StartDate
+,invi_DEF_Otdel_ID 
+,invi_DEF_Otdel    
+,invi_DEF_DIrection_ID
+,invi_DEF_DIrection   
+,invi_DEF_TheOwner_ID 
+,invi_DEF_TheOwner    
+,invi_DEF_OrderNum 
+,invos_code.visiblecode
+from v_AUTOINVOS_INFO 
+join INVI_OBJ on v_AUTOINVOS_INFO.ID =INVI_OBJ.TheOS 
+left join invos_code on invos_code.instanceid =v_AUTOINVOS_INFO.instanceid
+join v_AUTOinvi_DEF on v_AUTOinvi_DEF.instanceid =INVI_OBJ.instanceid 
+where 
+INVI_OBJ.TheOS not in (
+select TheOS from INVI_DONE where INVI_DONE.instanceid =INVI_OBJ.instanceid 
+)
+
+GO
+
+CREATE     view v_RPT_INVENTORY_OK as
+select v_AUTOINVOS_INFO.*,
+       v_AUTOINVI_DONE.Instanceid INV_INSTANCEID, INVI_DONE_OSStatus,INVI_DONE_CheckDate 
+ ,
+invi_DEFID  
+,invi_DEF_Uprev_ID
+,invi_DEF_Uprev   
+,invi_DEF_EndDate 
+,invi_DEF_StartDate
+,invi_DEF_Otdel_ID 
+,invi_DEF_Otdel    
+,invi_DEF_DIrection_ID
+,invi_DEF_DIrection   
+,invi_DEF_TheOwner_ID 
+,invi_DEF_TheOwner    
+,invi_DEF_OrderNum 
+ from v_AUTOINVOS_INFO 
+join INVI_OBJ on v_AUTOINVOS_INFO.ID =INVI_OBJ.TheOS
+join v_AUTOinvi_DEF on v_AUTOinvi_DEF.instanceid =INVI_OBJ.instanceid 
+join v_AUTOINVI_DONE on INVI_OBJ.instanceid =v_AUTOINVI_DONE.instanceid and v_AUTOINVOS_INFO.ID=v_AUTOINVI_DONE.INVI_DONE_theos_id
+go
+
+CREATE     view v_RPT_SHCODE as 
+select v_autoinvos_info.*,shcode,visiblecode,INVI_OBJ.instanceid INV_INSTANCEID from v_autoinvos_info join 
+invos_code on v_autoinvos_info.instanceid=invos_code.instanceid
+join INVI_OBJ on v_AUTOINVOS_INFO.ID =INVI_OBJ.TheOS
+GO
+
+CREATE view v_RPTVed as
+
+select 
+A.INVOS_INFO_TheOrg
+,A.INVOS_INFO_IsMaterial
+,A.INVOS_INFO_OSType
+,A.INVOS_INFO_Name
+,A.INVOS_INFO_CardNum
+,A.INVOS_INFO_TheCost
+,A.INVOS_PLACE_MatOtv
+,A.INVOS_PLACE_TheHouse
+,A.INVOS_PLACE_ComplNumber
+,A.INVOS_PLACE_DIrection
+,A.INVOS_PLACE_Uprav
+,A.INVOS_PLACE_Otdel
+,A.INVOS_PLACE_TheOwner
+,A.StatusName
+, B.instanceid inv_instanceid, 1 was, 0 found from v_autoinvos_info A 
+join invi_obj B on B.TheOs= A.ID
+union all
+select A.INVOS_INFO_TheOrg
+,A.INVOS_INFO_IsMaterial
+,A.INVOS_INFO_OSType
+,A.INVOS_INFO_Name
+,A.INVOS_INFO_CardNum
+,A.INVOS_INFO_TheCost
+,A.INVOS_PLACE_MatOtv
+,A.INVOS_PLACE_TheHouse
+,A.INVOS_PLACE_ComplNumber
+,A.INVOS_PLACE_DIrection
+,A.INVOS_PLACE_Uprav
+,A.INVOS_PLACE_Otdel
+,A.INVOS_PLACE_TheOwner
+,A.StatusName, B.instanceid inv_instanceid, 0 was, 1 found from v_autoinvos_info A 
+join invi_DONE B on B.TheOs= A.ID 
+
+
+GO
+
+CREATE view v_RPT_SLICH as
+
+select A.INVOS_INFO_TheOrg
+,A.INVOS_INFO_IsMaterial
+,A.INVOS_INFO_OSType
+,A.INVOS_INFO_Name
+,A.INVOS_INFO_CardNum
+,A.INVOS_INFO_TheCost
+,A.INVOS_PLACE_MatOtv
+,A.INVOS_PLACE_TheHouse
+,A.INVOS_PLACE_ComplNumber
+,A.INVOS_PLACE_DIrection
+,A.INVOS_PLACE_Uprav
+,A.INVOS_PLACE_Otdel
+,A.INVOS_PLACE_TheOwner
+,A.StatusName
+,A.inv_instanceid
+,sum(was) WAS
+,sum(found) found
+ from v_RPTVed A
+group by 
+A.INVOS_INFO_TheOrg
+,A.INVOS_INFO_IsMaterial
+,A.INVOS_INFO_OSType
+,A.INVOS_INFO_Name
+,A.INVOS_INFO_CardNum
+,A.INVOS_INFO_TheCost
+,A.INVOS_PLACE_MatOtv
+,A.INVOS_PLACE_TheHouse
+,A.INVOS_PLACE_ComplNumber
+,A.INVOS_PLACE_DIrection
+,A.INVOS_PLACE_Uprav
+,A.INVOS_PLACE_Otdel
+,A.INVOS_PLACE_TheOwner
+,A.inv_instanceid
+,A.StatusName
+ 
+
+
+GO
+
+
+
+
+"><FormData Name=""/></BlockHolder></ModuleHolder></root>

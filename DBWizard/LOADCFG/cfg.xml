@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<root><SITE Name="LOADCFG" 
+Server="%SERVER%" 
+DB="%DB%" 
+USER="%USER%" 
+PASSWORD="%PASSWORD%" 
+TIMEOUT="100" 
+PROVIDER="sqloledb" 
+AT="@" 
+INTEGRATED="%INTEGRATED%" 
+INTEGRATEDARM="0" 
+IMAGES="%IMAGES%" 
+LAYOUTS="%LAYOUTS%" 
+TEMP="%TEMP%" 
+FUNC="" 
+PROC="" 
+KERNEL=""/></root>

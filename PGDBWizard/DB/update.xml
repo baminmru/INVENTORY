@@ -1,0 +1,347 @@
+<?xml version="1.0"?>
+<root><ModuleHolder ModuleName="--Update 26.11.2009" File=""><BlockHolder BlockName="-- Update Script" BlockCode="
+
+CREATE        view v_RPT_INVENTORY_BAD as
+select v_AUTOINVOS_INFO.*,INVI_OBJ.instanceid INV_INSTANCEID ,
+invi_DEFID  
+,invi_DEF_Uprev_ID
+,invi_DEF_Uprev   
+,invi_DEF_EndDate 
+,invi_DEF_StartDate
+,invi_DEF_Otdel_ID 
+,invi_DEF_Otdel    
+,invi_DEF_DIrection_ID
+,invi_DEF_DIrection   
+,invi_DEF_TheOwner_ID 
+,invi_DEF_TheOwner    
+,invi_DEF_OrderNum 
+,invos_code.visiblecode
+from v_AUTOINVOS_INFO 
+join INVI_OBJ on v_AUTOINVOS_INFO.ID =INVI_OBJ.TheOS 
+left join invos_code on invos_code.instanceid =v_AUTOINVOS_INFO.instanceid
+join v_AUTOinvi_DEF on v_AUTOinvi_DEF.instanceid =INVI_OBJ.instanceid 
+where 
+INVI_OBJ.TheOS not in (
+select TheOS from INVI_DONE where INVI_DONE.instanceid =INVI_OBJ.instanceid 
+)
+
+GO
+
+CREATE     view v_RPT_INVENTORY_OK as
+select v_AUTOINVOS_INFO.*,
+       v_AUTOINVI_DONE.Instanceid INV_INSTANCEID, INVI_DONE_OSStatus,INVI_DONE_CheckDate 
+ ,
+invi_DEFID  
+,invi_DEF_Uprev_ID
+,invi_DEF_Uprev   
+,invi_DEF_EndDate 
+,invi_DEF_StartDate
+,invi_DEF_Otdel_ID 
+,invi_DEF_Otdel    
+,invi_DEF_DIrection_ID
+,invi_DEF_DIrection   
+,invi_DEF_TheOwner_ID 
+,invi_DEF_TheOwner    
+,invi_DEF_OrderNum 
+ from v_AUTOINVOS_INFO 
+join INVI_OBJ on v_AUTOINVOS_INFO.ID =INVI_OBJ.TheOS
+join v_AUTOinvi_DEF on v_AUTOinvi_DEF.instanceid =INVI_OBJ.instanceid 
+join v_AUTOINVI_DONE on INVI_OBJ.instanceid =v_AUTOINVI_DONE.instanceid and v_AUTOINVOS_INFO.ID=v_AUTOINVI_DONE.INVI_DONE_theos_id
+go
+
+CREATE     view v_RPT_SHCODE as 
+select v_autoinvos_info.*,shcode,visiblecode,INVI_OBJ.instanceid INV_INSTANCEID from v_autoinvos_info join 
+invos_code on v_autoinvos_info.instanceid=invos_code.instanceid
+join INVI_OBJ on v_AUTOINVOS_INFO.ID =INVI_OBJ.TheOS
+GO
+
+CREATE view v_RPTVed as
+
+select 
+A.INVOS_INFO_TheOrg
+,A.INVOS_INFO_IsMaterial
+,A.INVOS_INFO_OSType
+,A.INVOS_INFO_Name
+,A.INVOS_INFO_CardNum
+,A.INVOS_INFO_TheCost
+,A.INVOS_PLACE_MatOtv
+,A.INVOS_PLACE_TheHouse
+,A.INVOS_PLACE_ComplNumber
+,A.INVOS_PLACE_DIrection
+,A.INVOS_PLACE_Uprav
+,A.INVOS_PLACE_Otdel
+,A.INVOS_PLACE_TheOwner
+,A.StatusName
+, B.instanceid inv_instanceid, 1 was, 0 found from v_autoinvos_info A 
+join invi_obj B on B.TheOs= A.ID
+union all
+select A.INVOS_INFO_TheOrg
+,A.INVOS_INFO_IsMaterial
+,A.INVOS_INFO_OSType
+,A.INVOS_INFO_Name
+,A.INVOS_INFO_CardNum
+,A.INVOS_INFO_TheCost
+,A.INVOS_PLACE_MatOtv
+,A.INVOS_PLACE_TheHouse
+,A.INVOS_PLACE_ComplNumber
+,A.INVOS_PLACE_DIrection
+,A.INVOS_PLACE_Uprav
+,A.INVOS_PLACE_Otdel
+,A.INVOS_PLACE_TheOwner
+,A.StatusName, B.instanceid inv_instanceid, 0 was, 1 found from v_autoinvos_info A 
+join invi_DONE B on B.TheOs= A.ID 
+
+
+GO
+
+CREATE view v_RPT_SLICH as
+
+select A.INVOS_INFO_TheOrg
+,A.INVOS_INFO_IsMaterial
+,A.INVOS_INFO_OSType
+,A.INVOS_INFO_Name
+,A.INVOS_INFO_CardNum
+,A.INVOS_INFO_TheCost
+,A.INVOS_PLACE_MatOtv
+,A.INVOS_PLACE_TheHouse
+,A.INVOS_PLACE_ComplNumber
+,A.INVOS_PLACE_DIrection
+,A.INVOS_PLACE_Uprav
+,A.INVOS_PLACE_Otdel
+,A.INVOS_PLACE_TheOwner
+,A.StatusName
+,A.inv_instanceid
+,sum(was) WAS
+,sum(found) found
+ from v_RPTVed A
+group by 
+A.INVOS_INFO_TheOrg
+,A.INVOS_INFO_IsMaterial
+,A.INVOS_INFO_OSType
+,A.INVOS_INFO_Name
+,A.INVOS_INFO_CardNum
+,A.INVOS_INFO_TheCost
+,A.INVOS_PLACE_MatOtv
+,A.INVOS_PLACE_TheHouse
+,A.INVOS_PLACE_ComplNumber
+,A.INVOS_PLACE_DIrection
+,A.INVOS_PLACE_Uprav
+,A.INVOS_PLACE_Otdel
+,A.INVOS_PLACE_TheOwner
+,A.inv_instanceid
+,A.StatusName
+ 
+
+
+GO
+
+
+
+
+
+
+"><FormData Name=""/></BlockHolder></ModuleHolder><ModuleHolder ModuleName="--Update 19.12.2009" File=""><BlockHolder BlockName="-- Update Script" BlockCode="
+
+
+delete from MTZSEC_RIGHT
+go
+delete from instance where objtype='MTZSecurity'
+go
+delete from FIELDTYPEMAP
+go
+delete from ENUMITEM
+go
+delete from FIELDTYPE
+go
+delete from PARAMETERS
+go
+delete from SCRIPT
+go
+delete from SHAREDMETHOD
+go
+delete from PARTPARAMMAP
+go
+delete from PARTMENU
+go
+delete from FIELDVALIDATOR
+go
+delete from FIELDPARAMMAP
+go
+delete from FIELDMENU
+go
+delete from FldExtenders
+go
+delete from FIELDEXPRESSION
+go
+delete from DINAMICFILTERSCRIPT
+go
+delete from FIELDSRCDEF
+go
+delete from FIELD
+go
+delete from ViewColumn
+go
+delete from PARTVIEW_LNK
+go
+delete from PARTVIEW
+go
+delete from ExtenderInterface
+go
+delete from VALIDATOR
+go
+delete from CONSTRAINTFIELD
+go
+delete from UNIQUECONSTRAINT
+go
+delete from PART
+go
+delete from INSTANCEVALIDATOR
+go
+delete from NEXTSTATE
+go
+delete from OBJSTATUS
+go
+delete from STRUCTRESTRICTION
+go
+delete from FIELDRESTRICTION
+go
+delete from METHODRESTRICTION
+go
+delete from OBJECTMODE
+go
+delete from TYPEMENU
+go
+delete from OBJECTTYPE
+go
+delete from ParentPackage
+go
+delete from MTZAPP
+go
+delete from GENMANUALCODE
+go
+delete from GENCONTROLS
+go
+delete from GENREFERENCE
+go
+delete from GENERATOR_TARGET
+go
+delete from GENPACKAGE
+go
+delete from LocalizeInfo
+go
+delete from instance where objtype='MTZMetaModel'
+go
+delete from SysLog
+go
+delete from the_Session
+go
+delete from LogReader
+go
+delete from Verb
+go
+delete from instance where objtype='MTZSystem'
+go
+delete from StateAction
+go
+delete from instance where objtype='MTZStateSrv'
+go
+delete from WorkPlace
+go
+delete from EPFilterLink
+go
+delete from EntryPoints
+go
+delete from ARMTypes
+go
+delete from ARMJRNLADD
+go
+delete from ARMJRNLREP
+go
+delete from ARMJRNLRUN
+go
+delete from ARMJournal
+go
+delete from instance where objtype='MTZwp'
+go
+delete from JColumnSource
+go
+delete from JournalColumn
+go
+delete from Journal
+go
+delete from JournalSrc
+go
+delete from instance where objtype='MTZJrnl'
+go
+delete from Reports
+go
+delete from RPTFields
+go
+delete from RPTStruct
+go
+delete from RPTFormula
+go
+delete from instance where objtype='MTZRprt'
+go
+delete from STDJournlaExtInfo
+go
+delete from STDJournalExtParam
+go
+delete from STDJournalExtField
+go
+delete from STDJournalExtFlt
+go
+delete from instance where objtype='STDJournalExt'
+go
+delete from FileterField
+go
+delete from FilterFieldGroup
+go
+delete from Filters
+go
+delete from instance where objtype='MTZFltr'
+go
+delete from MTZ2JOB_DEF
+go
+delete from instance where objtype='MTZ2JOB'
+go
+delete from MTZExt_def
+go
+delete from MTZExtRel
+go
+delete from instance where objtype='MTZExt'
+go
+delete from SrvMessageInfo
+go
+delete from instance where objtype='MTZSrvMsg'
+go
+
+delete from ROLES_USER
+go
+delete from ROLES_MAP
+go
+delete from ROLES_DOC_STATE
+go
+delete from ROLES_DOC
+go
+delete from ROLES_DEF
+go
+delete from ROLES_REPORTS
+go
+delete from ROLES_ACT
+go
+delete from ROLES_WP
+go
+delete from instance where objtype='ROLES'
+go
+delete from Users
+go
+delete from GroupUser
+go
+delete from Groups
+go
+delete from instance where objtype='MTZUsers'
+go
+
+
+"><FormData Name=""/></BlockHolder></ModuleHolder></root>
